@@ -1,7 +1,20 @@
 from flask import Flask, render_template, request, redirect
 import mysql.connector
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
+# Database Connection Function
+def get_connection():
+    return mysql.connector.connect(
+        host=os.environ.get("DB_HOST"),
+        port=int(os.environ.get("DB_PORT")),
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        database=os.environ.get("DB_NAME")
+    )
 
 
 # Home Page
@@ -28,13 +41,7 @@ def register():
         availability = request.form['availability']
 
         # MySQL Connection
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="root",
-            database="blood_donor_system"
-        )
-
+        conn = get_connection()
         cursor = conn.cursor()
 
         # Insert Query
@@ -54,13 +61,11 @@ def register():
         )
 
         cursor.execute(query, values)
-
         conn.commit()
 
         cursor.close()
         conn.close()
 
-        # Success Receipt Page
         return render_template(
             'success.html',
             name=name,
@@ -79,13 +84,7 @@ def search():
     blood_group = request.args.get('blood_group')
     city = request.args.get('city')
 
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="blood_donor_system"
-    )
-
+    conn = get_connection()
     cursor = conn.cursor()
 
     query = '''
@@ -96,9 +95,7 @@ def search():
     AND availability='Yes'
     '''
 
-    values = (blood_group, city)
-
-    cursor.execute(query, values)
+    cursor.execute(query, (blood_group, city))
 
     donors = cursor.fetchall()
 
@@ -115,13 +112,7 @@ def search():
 @app.route('/mark_unavailable/<int:id>')
 def mark_unavailable(id):
 
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="blood_donor_system"
-    )
-
+    conn = get_connection()
     cursor = conn.cursor()
 
     query = '''
@@ -131,7 +122,6 @@ def mark_unavailable(id):
     '''
 
     cursor.execute(query, (id,))
-
     conn.commit()
 
     cursor.close()
