@@ -291,6 +291,34 @@ def edit(id):
     conn.close()
 
     return render_template("edit.html", donor=donor)
+@app.route('/update/<int:id>', methods=['POST'])
+def update(id):
+
+    name = request.form['name']
+    phone = request.form['phone']
+    city = request.form['city']
+    age = request.form['age']
+    availability = request.form['availability']
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE donors
+        SET name=%s,
+            phone=%s,
+            city=%s,
+            age=%s,
+            availability=%s
+        WHERE id=%s
+    """, (name, phone, city, age, availability, id))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return redirect('/dashboard')
 # -----------------------------
 # Run Flask
 # -----------------------------
