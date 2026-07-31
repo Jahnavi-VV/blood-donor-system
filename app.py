@@ -195,7 +195,64 @@ def mark_unavailable(id):
 
     return redirect('/')
 
+@app.route('/admin')
+def admin():
+    return render_template('admin_login.html')
 
+
+@app.route('/admin_login', methods=['POST'])
+def admin_login():
+
+    username = request.form['username']
+    password = request.form['password']
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM admin WHERE username=%s AND password=%s",
+        (username, password)
+    )
+
+    admin = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if admin:
+        return redirect('/dashboard')
+    else:
+        return "Invalid Username or Password"
+
+
+@app.route('/dashboard')
+def dashboard():
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM donors")
+    total = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM donors WHERE availability='Yes'")
+    available = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM donors WHERE availability='No'")
+    unavailable = cursor.fetchone()[0]
+
+    cursor.execute("SELECT id,name,blood_group,phone,city,age,availability FROM donors")
+    donors = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        "dashboard.html",
+        total=total,
+        available=available,
+        unavailable=unavailable,
+        donors=donors
+    )
 # -----------------------------
 # Run Flask
 # -----------------------------

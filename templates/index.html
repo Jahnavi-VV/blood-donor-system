@@ -25,6 +25,24 @@
             color:white;
             text-align:center;
             padding:20px;
+            position:relative;
+        }
+
+        .admin-btn{
+            position:absolute;
+            top:20px;
+            right:20px;
+            background:white;
+            color:#d32f2f;
+            text-decoration:none;
+            padding:10px 18px;
+            border-radius:5px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .admin-btn:hover{
+            background:#ffe5e5;
         }
 
         .container{
@@ -84,8 +102,15 @@
 <body>
 
 <header>
+
     <h1>Blood Donor Management System</h1>
+
     <p>Save Lives ❤️</p>
+
+    <a href="/admin" class="admin-btn">
+        🔒 Admin Login
+    </a>
+
 </header>
 
 <div class="container">
@@ -129,6 +154,7 @@
                 <option>AB+</option>
                 <option>AB-</option>
             </select>
+
         </div>
 
         <div class="form-group">
@@ -148,6 +174,7 @@
                 <option>Yes</option>
                 <option>No</option>
             </select>
+
         </div>
 
         <button type="submit">
@@ -215,7 +242,7 @@
 
     <!-- Advanced Search -->
 
-    <h2>Search by blood group and city</h2>
+    <h2>Search by Blood Group and City</h2>
 
     <form action="/search" method="GET">
 

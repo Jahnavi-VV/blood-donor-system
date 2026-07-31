@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f4f4;
+}
+
+header{
+    background:#d32f2f;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    margin-top:30px;
+}
+
+.cards{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.card{
+    flex:1;
+    min-width:220px;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0px 0px 10px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+.card h2{
+    color:#d32f2f;
+    margin-bottom:10px;
+}
+
+.card p{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.actions{
+    margin-top:40px;
+}
+
+.actions h2{
+    color:#d32f2f;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    background:white;
+}
+
+table th,table td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+}
+
+table th{
+    background:#d32f2f;
+    color:white;
+}
+
+.btn{
+    padding:8px 15px;
+    text-decoration:none;
+    border-radius:5px;
+    color:white;
+}
+
+.edit{
+    background:#2196F3;
+}
+
+.delete{
+    background:#f44336;
+}
+
+.logout{
+    display:inline-block;
+    margin-top:25px;
+    padding:12px 25px;
+    background:#d32f2f;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.logout:hover{
+    background:#b71c1c;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🩸 Blood Donor Management System</h1>
+
+<h2>Admin Dashboard</h2>
+
+</header>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+<h2>Total Donors</h2>
+<p>{{ total }}</p>
+</div>
+
+<div class="card">
+<h2>Available</h2>
+<p>{{ available }}</p>
+</div>
+
+<div class="card">
+<h2>Unavailable</h2>
+<p>{{ unavailable }}</p>
+</div>
+
+</div>
+
+<div class="actions">
+
+<h2>All Donors</h2>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Blood Group</th>
+<th>City</th>
+<th>Availability</th>
+<th>Edit</th>
+<th>Delete</th>
+
+</tr>
+
+{% for donor in donors %}
+
+<tr>
+
+<td>{{ donor[0] }}</td>
+<td>{{ donor[1] }}</td>
+<td>{{ donor[2] }}</td>
+<td>{{ donor[4] }}</td>
+<td>{{ donor[6] }}</td>
+
+<td>
+<a href="/edit/{{ donor[0] }}" class="btn edit">
+Edit
+</a>
+</td>
+
+<td>
+<a href="/delete/{{ donor[0] }}" class="btn delete">
+Delete
+</a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<center>
+
+<a href="/" class="logout">
+Logout
+</a>
+
+</center>
+
+</div>
+
+</div>
+
+</body>
+</html>
