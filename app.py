@@ -276,7 +276,21 @@ def delete(id):
 # -----------------------------
 @app.route('/edit/<int:id>')
 def edit(id):
-    return f"Edit Donor ID: {id}"
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT id,name,blood_group,phone,city,age,availability FROM donors WHERE id=%s",
+        (id,)
+    )
+
+    donor = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("edit.html", donor=donor)
 # -----------------------------
 # Run Flask
 # -----------------------------
