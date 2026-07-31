@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Search Results</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f5f5f5;
+            padding:20px;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            margin-bottom:15px;
+            border-radius:10px;
+            box-shadow:0px 0px 5px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            color:#d32f2f;
+        }
+
+        .btn{
+            display:inline-block;
+            text-decoration:none;
+            color:white;
+            background:#d32f2f;
+            padding:10px 15px;
+            border-radius:5px;
+            margin-top:10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <a href="/" class="btn">
+        ← Back
+    </a>
+
+    <h1>Matching Donors</h1>
+
+    {% if donors %}
+
+        {% for donor in donors %}
+
+        <div class="card">
+
+            <h3>{{ donor[1] }}</h3>
+
+            <p><b>Blood Group:</b> {{ donor[2] }}</p>
+
+            <p><b>Phone:</b> {{ donor[3] }}</p>
+
+            <p><b>City:</b> {{ donor[4] }}</p>
+
+            <p><b>Age:</b> {{ donor[5] }}</p>
+
+            <p><b>Available:</b> {{ donor[6] }}</p>
+
+            <p><b><i>Click button if blood taken</i></b></p>
+            <a href="/mark_unavailable/{{ donor[0] }}" class="btn">
+                Blood Taken
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <h3>No matching donors found.</h3>
+
+    {% endif %}
+
+</body>
+</html>
