@@ -254,6 +254,30 @@ def dashboard():
         donors=donors
     )
 # -----------------------------
+# Delete Donor
+# -----------------------------
+@app.route('/delete/<int:id>')
+def delete(id):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM donors WHERE id=%s", (id,))
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return redirect('/dashboard')
+
+
+# -----------------------------
+# Edit Donor (Temporary)
+# -----------------------------
+@app.route('/edit/<int:id>')
+def edit(id):
+    return f"Edit Donor ID: {id}"
+# -----------------------------
 # Run Flask
 # -----------------------------
 if __name__ == '__main__':
